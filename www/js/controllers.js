@@ -38,7 +38,7 @@ function init() {
 
 	document.querySelector("#takeVideo").addEventListener("touchend", function() {
 		console.log("Take video");
-		navigator.device.capture.captureVideo(gifshot.createGIF, captureError, {limit: 1});
+		navigator.device.capture.captureVideo(captureSuccess, captureError, {limit: 1});
 	}, false);
 
 }
@@ -47,21 +47,9 @@ function captureError(e) {
 	console.log("capture error: "+JSON.stringify(e));
 }
 
-// gifshot.createGIF(s, {
-//     video: [
-//       s[0].fullPath
-//     ]
-// }, function (obj) {
-//     if (!obj.error) {
-//         var image = obj.image, animatedImage = document.createElement('img');
-//         animatedImage.src = image;
-//         document.body.appendChild(animatedImage);
-//     }
-// });
-
 function captureSuccess(s) {
 	var v = "<video controls='controls'>";
-	v += "<source src='" +  + "' type='video/mp4'>";
+	v += "<source src='" + s[0].fullPath + "' type='video/mp4'>";
 	v += "</video>";
 	document.querySelector("#videoArea").innerHTML = v;
 }
