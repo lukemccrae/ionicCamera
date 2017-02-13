@@ -18,7 +18,18 @@ angular.module('starter.controllers', ['ngCordova'])
   };
 })
 
-.controller('ChatsCtrl', function($scope, $cordovaCapture) {
+.controller('ChatsCtrl', function($scope, $cordovaCapture, $http) {
+  
+  const vm = this;
+
+  vm.testPost = function() {
+    console.log("hi");
+  }
+
+  function testPost() {
+    console.log("hi");
+  }
+
   // const vm = this;
   // console.log($cordovaCapture);
   //
@@ -35,7 +46,6 @@ angular.module('starter.controllers', ['ngCordova'])
   document.addEventListener("deviceready", init, false);
 function init() {
 
-
 	document.querySelector("#takeVideo").addEventListener("touchend", function() {
 		console.log("Take video");
 		navigator.device.capture.captureVideo(captureSuccess, captureError, {limit: 1});
@@ -48,10 +58,18 @@ function captureError(e) {
 }
 
 function captureSuccess(s) {
+  console.log(s[0].fullpath);
+  var postObj = {
+    video: s[0].fullpath
+  }
+  $http.post('https://localhost:3000/', postObj)
+
 	var v = "<video controls='controls'>";
 	v += "<source src='" + s[0].fullPath + "' type='video/mp4'>";
 	v += "</video>";
 	document.querySelector("#videoArea").innerHTML = v;
 }
+
+
 
 })
